@@ -57,5 +57,18 @@ function wagesEarnedOnDate(object){
     return (totalHours * object.payPerHour)
 }
 function allWagesFor(object){
-    console.log(object.timeInEvents.timeOutEvents)
+    console.log(object.timeInEvents)
+    for(let i=0; i< object.timeInEvents.length; i++){
+        for(let j=0; j< object.timeOutEvents.length; j++){
+            let timeIn = object.timeInEvents[i].date
+            let timeOut = object.timeOutEvents[j].date
+            let hourIn = object.timeInEvents[i].hour
+            let hourOut = object.timeOutEvents[j].hour
+            if(timeIn === timeOut){
+                return ((hourOut - hourIn)/100)
+            }else if(timeIn < timeOut){
+                return (((hourIn-2400)+ hourOut)/100)
+            }
+        }
+    }
 }
