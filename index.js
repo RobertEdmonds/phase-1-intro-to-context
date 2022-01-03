@@ -37,38 +37,21 @@ function createTimeOutEvent(object, time){
     object.timeOutEvents.push(outTime)
     return object
 }
-function hoursWorkedOnDate(object){
-    for(let i=0; i< object.timeInEvents.length; i++){
-        for(let j=0; j< object.timeOutEvents.length; j++){
-            let timeIn = object.timeInEvents[i].date
-            let timeOut = object.timeOutEvents[j].date
-            let hourIn = object.timeInEvents[i].hour
-            let hourOut = object.timeOutEvents[j].hour
-            if(timeIn === timeOut){
-                return ((hourOut - hourIn)/100)
-            }else if(timeIn < timeOut){
-                return (((hourIn-2400)+ hourOut)/100)
-            }
-        }
-    }
+function hoursWorkedOnDate(object, date){
+    let inEvent = object.timeInEvents.find(event=> event.date === date)
+    let outEvent = object.timeOutEvents.find(event => event.date ===date)
+    return ((outEvent.hour - inEvent.hour)/100)
+       
 }
-function wagesEarnedOnDate(object){
-    let totalHours = hoursWorkedOnDate(object)
+function wagesEarnedOnDate(object, date){
+    let totalHours = hoursWorkedOnDate(object, date)
     return (totalHours * object.payPerHour)
 }
 function allWagesFor(object){
-    console.log(object.timeInEvents)
-    for(let i=0; i< object.timeInEvents.length; i++){
-        for(let j=0; j< object.timeOutEvents.length; j++){
-            let timeIn = object.timeInEvents[i].date
-            let timeOut = object.timeOutEvents[j].date
-            let hourIn = object.timeInEvents[i].hour
-            let hourOut = object.timeOutEvents[j].hour
-            if(timeIn === timeOut){
-                return ((hourOut - hourIn)/100)
-            }else if(timeIn < timeOut){
-                return (((hourIn-2400)+ hourOut)/100)
-            }
-        }
-    }
+    let dates = object.timeInEvents.map(event => event.date)
+    let total = dates.reduce((previousValue, currentValue)=> previousValue + wagesEarnedOnDate(object, currentValue), 0)
+    return total
+}
+function calculatePayroll(array){
+    console.log(array.forEach(wagesEarnedOnDate))
 }
