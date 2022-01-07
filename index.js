@@ -54,7 +54,7 @@ function allWagesFor(object){
 }
 function calculatePayroll(array){
    let group = array.map(event => event.timeInEvents)
-   let dates = group.map(event => event[0].date)
+   let dates = group.forEach(event => event[0].date)
    let total = dates.reduce((previous, current)=> previous + wagesEarnedOnDate(array, current))
-   return total
+   console.log(dates)
 }
